@@ -1,0 +1,23 @@
+{
+    "thundergod13670@gmail.com": {
+        "Last check": "2023-04-13",
+        "Today's points": 0,
+        "Points": 546
+    },
+    "tooldroidtoolbox@gmail.com": {
+        "Last check": "2023-04-13",
+        "Today's points": 0,
+        "Points": 4284
+    },
+    "jitto.joseph67@gmail.com": {
+        "Last check": "2023-04-13",
+        "Today's points": 0,
+        "Points": 4174
+    },
+    "jittojoseph13670@gmail.com": {
+        "Last check": "2023-04-13",
+        "Today's points": 0,
+        "Points": 3013
+    },
+    "Elapsed time": "00:13:10"
+}
