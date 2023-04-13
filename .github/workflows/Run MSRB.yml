@@ -28,6 +28,18 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v3
+      
+      
+    - name: Install OpenVPN
+      run: |
+        sudo apt update
+        sudo apt install -y openvpn openvpn-systemd-resolved
+    - name: Connect to VPN
+      uses: "kota65535/github-openvpn-connect-action@v2"
+      with:
+        config_file: Canada-udp.ovpn
+        username: ${{ secrets.OVPN_USERNAME }}
+        password: ${{ secrets.OVPN_PASSWORD }}
 
 # SET REPO STUFF STEP  
 
