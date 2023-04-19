@@ -86,6 +86,10 @@ jobs:
     - name: Retry the Bot with env.DEFAULT_RETRY_COMMAND
       if: ${{ failure() && env.CUSTOM_COMMAND == '' }}
       run: ${{ env.DEFAULT_RETRY_COMMAND }}
+      
+    - name: Run the Bot again
+      if: ${{ env.CUSTOM_COMMAND == '' }}
+      run: ${{ env.DEFAULT_COMMAND }}
 
 # CHECK LOG_ACCOUNTS.TXT     
     - name: Check log after run
