@@ -11,8 +11,8 @@ permissions: write-all
 env:
 
   # EDIT DEFAULT_COMMAND AND DEFAULT_RETRY_COMMAND IF YOU WANT
-  DEFAULT_COMMAND: timeout 3000 python ms_rewards_farmer.py --headless --repeat-shopping --dont-check-for-updates --superfast --skip-unusual --shuffle --no-images --discord ${{ secrets.webhook }} --on-finish exit
-  DEFAULT_RETRY_COMMAND: timeout 3000 python ms_rewards_farmer.py --headless --repeat-shopping --dont-check-for-updates --superfast --shuffle --skip-unusual --no-images --discord ${{ secrets.webhook }} --on-finish exit
+  DEFAULT_COMMAND: timeout 3000 python ms_rewards_farmer.py --headless --repeat-shopping --dont-check-for-updates --superfast --skip-unusual --shuffle --no-images --discord ${{ secrets.webhook }} --dont-check-internet --on-finish exit
+  DEFAULT_RETRY_COMMAND: timeout 3000 python ms_rewards_farmer.py --headless --repeat-shopping --dont-check-for-updates --superfast --shuffle --skip-unusual --no-images --discord ${{ secrets.webhook }} --dont-check-internet --on-finish exit
   
   CUSTOM_COMMAND: ${{ secrets.CUSTOM_COMMAND }}
   CUSTOM_RETRY_COMMAND: ${{ secrets.CUSTOM_RETRY_COMMAND }}
