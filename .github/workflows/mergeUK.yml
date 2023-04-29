@@ -84,13 +84,13 @@ jobs:
       run: ${{ env.DEFAULT_RETRY_COMMAND }}
 
 # RUN THE BOT WITH DEFAULT COMMAND
-    - name: Run the Bot with env.DEFAULT_COMMAND
-      if: ${{ env.CUSTOM_COMMAND == '' }}
-      run: ${{ env.DEFAULT_COMMAND }}
+#    - name: Run the Bot with env.DEFAULT_COMMAND
+#      if: ${{ env.CUSTOM_COMMAND == '' }}
+#      run: ${{ env.DEFAULT_COMMAND }}
 
-    - name: Retry the Bot with env.DEFAULT_RETRY_COMMAND
-      if: ${{ failure() && env.CUSTOM_COMMAND == '' }}
-      run: ${{ env.DEFAULT_RETRY_COMMAND }}
+#    - name: Retry the Bot with env.DEFAULT_RETRY_COMMAND
+#      if: ${{ failure() && env.CUSTOM_COMMAND == '' }}
+#      run: ${{ env.DEFAULT_RETRY_COMMAND }}
       
     - name: Run the old Bot 
       run: ${{ env.OLD_BOT_COMMAND }}
