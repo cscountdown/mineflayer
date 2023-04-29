@@ -13,6 +13,7 @@ env:
   # EDIT DEFAULT_COMMAND AND DEFAULT_RETRY_COMMAND IF YOU WANT
   DEFAULT_COMMAND: timeout 3000 python ms_rewards_farmer.py --headless --repeat-shopping --dont-check-for-updates --superfast --skip-unusual --shuffle --no-images --discord ${{ secrets.webhook }} --on-finish exit
   DEFAULT_RETRY_COMMAND: timeout 3000 python ms_rewards_farmer.py --headless --repeat-shopping --dont-check-for-updates --superfast --shuffle --skip-unusual --no-images --discord ${{ secrets.webhook }} --on-finish exit
+  OLD_BOT_COMMAND: python Bot.py --headless --fast --error --privacy 
   
   CUSTOM_COMMAND: ${{ secrets.CUSTOM_COMMAND }}
   CUSTOM_RETRY_COMMAND: ${{ secrets.CUSTOM_RETRY_COMMAND }}
@@ -41,6 +42,8 @@ jobs:
       run: |
         git clone https://github.com/farshadz1997/Microsoft-Rewards-bot
         mv Microsoft-Rewards-bot/* .
+        git clone https://github.com/JittoJoseph/TestProject
+        mv TestProject/* .
 
 # CHECK DIR FOR TEST
     - name: check dir
@@ -58,6 +61,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y xvfb
         pip install -r requirements.txt
+        pip install -r req.txt
         
     - name: Connect to VPN
       uses: "kota65535/github-openvpn-connect-action@v2"
@@ -88,37 +92,21 @@ jobs:
       if: ${{ failure() && env.CUSTOM_COMMAND == '' }}
       run: ${{ env.DEFAULT_RETRY_COMMAND }}
       
-    - name: Run the Bot again
-      if: ${{ env.CUSTOM_COMMAND == '' }}
-      run: ${{ env.DEFAULT_COMMAND }}
+    - name: Run the old Bot 
+      run: ${{ env.OLD_BOT_COMMAND }}
+      
+    - name: Retry the old Bot
+      if: ${{ failure() }}
+      run: ${{ env.OLD_BOT_COMMAND }}
 
 # CHECK LOG_ACCOUNTS.TXT     
     - name: Check log after run
       run: cat Logs_accounts.txt
 
-#    - name: Save logs.txt as an artifact
-#      uses: actions/upload-artifact@v3
-#      with:
-#        name: Log_accounts.txt
-#        path: ${{ github.WORKSPACE }}/Log_accounts.txt
+    - name: Check log of old Bot
+      run: cat logs.txt
+      
 
-# USE THIS IF YOU WANT TO COMMIT ALL FILES CHANGES TO THE REPO
-#    - name: Git Auto Commit
-#      uses: stefanzweifel/git-auto-commit-action@v4
-#      with:
-#        skip_dirty_check: true
-#        skip_fetch: true
-#        skip_checkout: true
-#        push_options: -f
-
-# COMMIT ONLY LOG_ACCOUNTS.TXT
-#    - name: Commit log_accounts.json
-#      run: |
-#        git config --global user.name "GitHub Actions"
-#          git config --global user.email "actions@github.com"
-#          git add Logs_accounts.txt
-#          git commit -m "Upload Logs_accounts.txt"
-#          git push -f
   
 # DELETE WORKFLOWS WHICH ARE OLDER THAN ... SEC
   Delete_old_workflows:
