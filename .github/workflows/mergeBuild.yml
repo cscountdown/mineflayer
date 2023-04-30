@@ -1,0 +1,97 @@
+name: release
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 12 * * *' # every day at 3:30 pm IST
+
+
+permissions: write-all
+  
+env:
+
+  # EDIT DEFAULT_COMMAND AND DEFAULT_RETRY_COMMAND IF YOU WANT
+  DEFAULT_COMMAND: timeout 5000 ./'Bot.TUI' -b
+
+  GITHUB_TOKEN: ${{ github.token }}
+  SETTINGS: ${{ secrets.SETTINGS }}
+
+jobs:
+  Run:
+
+    runs-on: ubuntu-latest
+#    timeout-minutes: 90 # HASTAG THIS LINE IF YOU DON'T WANT TO LIMIT THE WORKFLOWS RUN TIME
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+      
+      
+    - name: Install OpenVPN
+      run: |
+        sudo apt update
+        sudo apt install -y openvpn openvpn-systemd-resolved
+
+# SET REPO STUFF STEP  
+
+    - name: Get the executable
+      run: |
+        wget https://github.com/Tom60chat/Microsoft-Rewards-Farmer-Sharp/releases/download/v0.10.1-beta1/linux-x64.zip
+        unzip linux-x64.zip
+        mv linux-x64/* .
+        rm Settings.json
+        rm linux-*
+        mv 'Microsoft Rewards Farmer.TUI' Bot.TUI
+
+# CHECK DIR FOR TEST
+    - name: check dir
+      run: ls
+  
+# INSTALL REQUIRED STUFF TO RUN BOT
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+        cache: 'pip'
+      
+    - name: Install required packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y xvfb
+        
+    - name: Connect to VPN
+      uses: "kota65535/github-openvpn-connect-action@v2"
+      with:
+        config_file: config.ovpn
+        username: ${{ secrets.OVPN_USERNAME }}
+        password: ${{ secrets.OVPN_PASSWORD }}
+        
+    - name: Set secrets variable as environment variable
+      run: echo "$SETTINGS" > Settings.json
+
+
+# RUN THE BOT WITH DEFAULT COMMAND
+    - name: Run the Bot with env.DEFAULT_COMMAND
+      run: ${{ env.DEFAULT_COMMAND }}
+
+    - name: Retry the Bot when failed
+      if: ${{ failure() }}
+      run: ${{ env.DEFAULT_COMMAND }}
+      
+
+# CHECK LOG_ACCOUNTS.TXT     
+
+    - name: Check log of old Bot
+      run: cat logs.txt
+      
+
+  
+# DELETE WORKFLOWS WHICH ARE OLDER THAN ... SEC
+  Delete_old_workflows:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old workflow runs
+        uses: MajorScruffy/delete-old-workflow-runs@v0.3.0
+        with:
+          repository: ${{ github.repository }}
+          older-than-seconds: 77800 # CHANGE THIS VALUE AS YOU NEED
