@@ -40,7 +40,7 @@ jobs:
         unzip linux-x64.zip
         mv linux-x64/* .
         rm Settings.json
-        rm linux-*
+        rm -rf linux-*
         mv 'Microsoft Rewards Farmer.TUI' Bot.TUI
 
 # CHECK DIR FOR TEST
