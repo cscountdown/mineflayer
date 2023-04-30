@@ -67,11 +67,15 @@ jobs:
 
 # RUN THE BOT WITH DEFAULT COMMAND
     - name: Run the Bot with env.DEFAULT_COMMAND
-      run: ${{ env.DEFAULT_COMMAND }}
+      run: |
+        ${{ env.DEFAULT_COMMAND }}
+        ls
 
     - name: Retry the Bot when failed
       if: ${{ failure() }}
-      run: ${{ env.DEFAULT_COMMAND }}
+      run: |
+        ${{ env.DEFAULT_COMMAND }}
+        ls
       
 
 # CHECK LOG_ACCOUNTS.TXT     
