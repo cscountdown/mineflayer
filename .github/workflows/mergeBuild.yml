@@ -62,7 +62,9 @@ jobs:
         password: ${{ secrets.OVPN_PASSWORD }}
         
     - name: Set secrets variable as environment variable
-      run: echo "$SETTINGS" > Settings.json
+      run: |
+        echo "$SETTINGS" > Settings.json
+        cat Settings.json
 
 
 # RUN THE BOT WITH DEFAULT COMMAND
