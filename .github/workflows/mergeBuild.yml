@@ -78,8 +78,8 @@ jobs:
 
 # CHECK LOG_ACCOUNTS.TXT     
 
-    - name: Check log of old Bot
-      run: cat logs.txt
+    - name: Check log
+      run: ls
       
 
   
